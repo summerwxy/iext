@@ -1,6 +1,8 @@
 *.swp
 .gradle
 build
+grails-app/assets/bower_components
+node_modules
 extjs/.sencha
 extjs/build
 extjs/ext

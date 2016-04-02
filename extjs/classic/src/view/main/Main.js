@@ -58,7 +58,7 @@ Ext.define('iext.view.main.Main', {
     },
 
     defaults: {
-        bodyPadding: 20,
+        bodyPadding: 0,
         tabConfig: {
             plugins: 'responsive',
             responsiveConfig: {
@@ -76,6 +76,18 @@ Ext.define('iext.view.main.Main', {
     },
 
     items: [{
+        title: '会议室',
+        iconCls: 'fa-calendar',
+        layout: 'fit',
+        items: [{
+            xtype: 'component',
+            autoEl: {
+                tag: 'iframe',
+                style: 'border: none',
+                src: 'http://192.168.0.45:3000/imis/calendar/index'
+            }
+        }]
+    }, {
         title: 'Home',
         iconCls: 'fa-home',
         // The following grid shares a store with the classic version's grid as well!
