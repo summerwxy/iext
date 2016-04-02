@@ -9,6 +9,7 @@
     "tests"
   ],
   "dependencies": {
+    "jquery-week-calendar": "themouette/jquery-week-calendar",
     "bootswatch": "thomaspark/bootswatch",
     "bootstrap": null
   }
