@@ -1,4 +1,5 @@
 *.swp
+.asscache
 .gradle
 build
 grails-app/assets/bower_components

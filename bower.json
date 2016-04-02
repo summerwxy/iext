@@ -9,6 +9,7 @@
     "tests"
   ],
   "dependencies": {
+    "bootswatch": "thomaspark/bootswatch",
     "bootstrap": null
   }
 }
