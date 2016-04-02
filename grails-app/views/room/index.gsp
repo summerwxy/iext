@@ -2,12 +2,17 @@
 <html>
 <head>
     <meta name="layout" content="bootswatch"/>
-	<link rel='stylesheet' type='text/css' href='${resource(dir: 'js/jquery-week-calendar-master', file: 'jquery.weekcalendar.css')}' />
-	<link rel='stylesheet' type='text/css' href='${resource(dir: 'js/jquery-week-calendar-master/full_demo', file: 'reset.css')}' />
-	<link rel='stylesheet' type='text/css' href='${resource(dir: 'js/jquery-week-calendar-master/full_demo', file: 'demo.css')}' />							
-	<link rel='stylesheet' type='text/css' href='${resource(dir: 'js/jquery-week-calendar-master/skins', file: 'gcalendar.css')}' />
+
+
+    <asset:stylesheet src="../bower_components/jquery-week-calendar/jquery.weekcalendar.css"/>
+    <asset:stylesheet src="../bower_components/jquery-week-calendar/full_demo/reset.css"/>
+    <asset:stylesheet src="../bower_components/jquery-week-calendar/full_demo/demo.css"/>
+    <asset:stylesheet src="../bower_components/jquery-week-calendar/skins/gcalendar.css"/>
+
+    <!--
 	<link rel='stylesheet' type='text/css' href='${resource(dir: 'bower_components/bootstrap-wysiwyg', file: 'index.css')}' />
 	<link rel='stylesheet' type='text/css' href='${resource(dir: 'bootstrap-colorpalette/css', file: 'bootstrap-colorpalette.css')}' />
+    -->
     <style>
     .wc-business-hours {
         font-size: 100%;
