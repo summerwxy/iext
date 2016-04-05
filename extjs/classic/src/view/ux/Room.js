@@ -10,7 +10,7 @@ Ext.define('iext.view.ux.Room', {
         autoEl: {
             tag: 'iframe',
             style: 'border: none',
-            src: 'http://192.168.0.45:3000/imis/calendar/index2'
+            src: 'http://192.168.0.45:3000/imis/calendar/index_g3'
         }
     }]
 });

@@ -10,7 +10,7 @@ Ext.define('iext.view.ux.Ticket', {
         autoEl: {
             tag: 'iframe',
             style: 'border: none',
-            src: 'http://192.168.0.45:3000/imis/pos/f1'
+            src: 'http://192.168.0.45:3000/imis/pos/f1_g3'
         }
     }]
 });

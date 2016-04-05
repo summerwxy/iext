@@ -10,7 +10,7 @@ Ext.define('iext.view.ux.Ship', {
         autoEl: {
             tag: 'iframe',
             style: 'border: none',
-            src: 'http://192.168.0.45:3000/imis/xout/page1'
+            src: 'http://192.168.0.45:3000/imis/xout/page1_g3'
         }
     }]
 });
