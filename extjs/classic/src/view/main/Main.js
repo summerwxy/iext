@@ -75,18 +75,21 @@ Ext.define('iext.view.main.Main', {
         }
     },
 
+    uses : [
+        'iext.view.ux.Room', 
+        'iext.view.ux.Ship',
+        'iext.view.ux.Qrcode',
+        'iext.view.ux.Ticket'
+    ],  
+
     items: [{
-        title: '会议室',
-        iconCls: 'fa-calendar',
-        layout: 'fit',
-        items: [{
-            xtype: 'component',
-            autoEl: {
-                tag: 'iframe',
-                style: 'border: none',
-                src: 'http://192.168.0.45:3000/imis/calendar/index2'
-            }
-        }]
+        xtype : 'room'   
+    }, {
+        xtype : 'ship'   
+    }, {
+        xtype : 'qrcode'   
+    }, {
+        xtype : 'ticket'   
     }, {
         title: 'Home',
         iconCls: 'fa-home',
