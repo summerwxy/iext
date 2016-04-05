@@ -84,7 +84,7 @@ Ext.define('iext.view.main.Main', {
             autoEl: {
                 tag: 'iframe',
                 style: 'border: none',
-                src: 'http://192.168.0.45:3000/imis/calendar/index'
+                src: 'http://192.168.0.45:3000/imis/calendar/index2'
             }
         }]
     }, {

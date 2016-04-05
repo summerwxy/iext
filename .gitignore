@@ -7,3 +7,4 @@ node_modules
 extjs/.sencha
 extjs/build
 extjs/ext
+src/main/webapp/extjs

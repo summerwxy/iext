@@ -1,10 +1,8 @@
-<%@ defaultCodec="none" %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>会议室</title>
     <meta name="layout" content="bootswatch"/>
-
     <asset:stylesheet src="../bower_components/jquery-week-calendar/libs/css/smoothness/jquery-ui-1.8.11.custom.css"/>
     <asset:stylesheet src="../bower_components/jquery-week-calendar/jquery.weekcalendar.css"/>
     <asset:stylesheet src="../bower_components/jquery-week-calendar/full_demo/reset.css"/>
@@ -13,9 +11,96 @@
     <asset:stylesheet src="../bower_components/bootstrap-wysiwyg/css/style.css"/>
     <asset:stylesheet src="../bower_components/bootstrap-colorpalette/css/bootstrap-colorpalette.css"/>
 
-    <!-- test this -->
-    <!-- http://robmonie.github.io/jquery-week-calendar/full_demo/weekcalendar_full_demo.html -->
 
+    <!--  =============== DELETE THIS ALL ===================
+
+		<link href="http://192.168.0.45:3000/imis/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="http://192.168.0.45:3000/imis/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="http://192.168.0.45:3000/imis/themes/font-awesome/css/font-awesome.min.css" />
+
+
+
+		<!--page specific plugin styles-->
+
+		<link rel="stylesheet" href="http://192.168.0.45:3000/imis/themes/css/prettify.css" />
+
+		<!--fonts-->
+
+		<!-- link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300" / -->
+
+		<!--ace styles-->
+
+		<link rel="stylesheet" href="http://192.168.0.45:3000/imis/themes/css/w8.min.css" />
+		<link rel="stylesheet" href="http://192.168.0.45:3000/imis/themes/css/w8-responsive.min.css" />
+		<link rel="stylesheet" href="http://192.168.0.45:3000/imis/themes/css/w8-skins.min.css" />
+
+		<!--[if lte IE 8]>
+		  <link rel="stylesheet" href="themes/css/ace-ie.min.css" />
+		<![endif]-->
+
+		<!--inline styles if any-->
+		<link rel="stylesheet" href="http://192.168.0.45:3000/imis/bower_components/jquery-ui/themes/smoothness/jquery-ui.min.css" />
+		
+
+		<link rel="stylesheet" href="http://192.168.0.45:3000/imis/bower_components/selectize/dist/css/selectize.bootstrap2.css" />
+
+		<!--basic scripts-->
+        
+        <!--[if lt IE 9]>
+		<script src="http://192.168.0.45:3000/imis/bower_components/jquery-legacy/jquery.min.js"></script>
+        <![endif]-->
+		  <link rel="stylesheet" href="http://192.168.0.45:3000/imis/themes/font-awesome/css/font-awesome-ie7.min.css" />
+
+    -->
+		<script src="http://192.168.0.45:3000/imis/bower_components/jquery/dist/jquery.min.js"></script>
+
+		<script src="http://192.168.0.45:3000/imis/bootstrap/js/bootstrap.min.js"></script>
+		<script src="http://192.168.0.45:3000/imis/bower_components/jquery-ui/jquery-ui.min.js"></script>
+		<script src="http://192.168.0.45:3000/imis/themes/js/jquery.ui.touch-punch.min.js"></script>
+		
+		<script src="http://192.168.0.45:3000/imis/themes/js/jquery.slimscroll.min.js"></script>
+		<script src="http://192.168.0.45:3000/imis/themes/js/jquery.easy-pie-chart.min.js"></script>
+		<script src="http://192.168.0.45:3000/imis/themes/js/jquery.sparkline.min.js"></script>
+		
+		<script src="http://192.168.0.45:3000/imis/themes/js/jquery.flot.min.js"></script>
+		<script src="http://192.168.0.45:3000/imis/themes/js/jquery.flot.pie.min.js"></script>
+		<script src="http://192.168.0.45:3000/imis/themes/js/jquery.flot.resize.min.js"></script>
+
+		<!--w8 scripts-->
+
+		<script src="http://192.168.0.45:3000/imis/themes/js/w8-elements.min.js"></script>
+		<script src="http://192.168.0.45:3000/imis/themes/js/w8.min.js"></script>
+
+        <!--bootstrap-datetimepicker-->
+        <link rel="stylesheet" href="http://192.168.0.45:3000/imis/bootstrap-datetimepicker/css/datetimepicker.css" />
+        <script src="http://192.168.0.45:3000/imis/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+        <script src="/imis/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+
+        <!-- chosen -->
+        <link rel="stylesheet" href="/imis/static/js/chosen_v1.0.0/chosen.min.css" />
+        <script src="http://192.168.0.45:3000/imis/static/js/chosen_v1.0.0/chosen.jquery.min.js"></script>
+
+        <!-- ScrollToFixed -->
+        <script src="http://192.168.0.45:3000/imis/static/js/jquery-scrolltofixed-min.js"></script>
+
+        <!-- my scripts -->
+        <script src="http://192.168.0.45:3000/imis/static/js/underscore-min.js"></script>
+        <script src="http://192.168.0.45:3000/imis/bower_components/microplugin/src/microplugin.js"></script>
+        <script src="http://192.168.0.45:3000/imis/bower_components/sifter/sifter.min.js"></script>
+        <script src="http://192.168.0.45:3000/imis/bower_components/selectize/dist/js/selectize.min.js"></script>
+
+        <style type="text/css" media="screen">
+        
+        </style>
+
+		<!--inline scripts related to this page-->
+    	
+	<link rel='stylesheet' type='text/css' href='http://192.168.0.45:3000/imis/static/js/jquery-week-calendar-master/jquery.weekcalendar.css' />
+	<!-- link rel='stylesheet' type='text/css' href='http://192.168.0.45:3000/imis/static/js/jquery-week-calendar-master/full_demo/reset.css' / -->
+	<!-- link rel='stylesheet' type='text/css' href='http://192.168.0.45:3000/imis/static/js/jquery-week-calendar-master/full_demo/demo.css' / -->							
+	<link rel='stylesheet' type='text/css' href='http://192.168.0.45:3000/imis/static/js/jquery-week-calendar-master/skins/gcalendar.css' />
+	<link rel='stylesheet' type='text/css' href='http://192.168.0.45:3000/imis/bower_components/bootstrap-wysiwyg/index.css' />
+	<link rel='stylesheet' type='text/css' href='http://192.168.0.45:3000/imis/bootstrap-colorpalette/css/bootstrap-colorpalette.css' />
     <style>
     .wc-business-hours {
         font-size: 100%;
@@ -24,16 +109,12 @@
         width: 700px;
         color: #000000;
     }
-    .wc-container {
-        font-size: 14px;
-    }
-    </style>
 
-    <asset:javascript src="../bower_components/jquery-week-calendar/libs/jquery-ui-1.8.11.custom.min.js"/>
-    <asset:javascript src="../bower_components/jquery-week-calendar/jquery.weekcalendar.js" />
-    <asset:javascript src="../bower_components/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js" />
-    <asset:javascript src="../bower_components/jquery.hotkeys/jquery.hotkeys.js" />
-    <asset:javascript src="../bower_components/bootstrap-colorpalette/js/bootstrap-colorpalette.js" />
+    </style>
+	<script src="http://192.168.0.45:3000/imis/static/js/jquery-week-calendar-master/jquery.weekcalendar.js"></script>
+	<script src="http://192.168.0.45:3000/imis/bower_components/bootstrap-wysiwyg/bootstrap-wysiwyg.js"></script>
+	<script src="http://192.168.0.45:3000/imis/bower_components/bootstrap-wysiwyg/external/jquery.hotkeys.js"></script>
+	<script src="http://192.168.0.45:3000/imis/bootstrap-colorpalette/js/bootstrap-colorpalette.js"></script>
  
     <script type="text/javascript">
 /*!
@@ -183,7 +264,7 @@ split = split || function (undef) {
         var $calendar = $('#calendar');
     
         $calendar.weekCalendar({ 
-            date: ${dateLong},
+            date: 1459818003296,
             timeFormat: 'H:i', 
             dateFormat: 'Y/m/d', 
             use24Hour: true, 
@@ -194,7 +275,7 @@ split = split || function (undef) {
             timeslotsPerHour: 4, 
             buttonText: {today : "本周", lastWeek : "前一周", nextWeek : "后一周"}, 
             height: function($calendar) {
-                return $(window).height() - 180; // - $('.navbar').outerHeight(true);
+                return $(window).height() - 20; // - $('.navbar').outerHeight(true);
             },
             hourLine: true,
             longDays: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'], 
@@ -204,7 +285,7 @@ split = split || function (undef) {
             title: function(daysToShow) {
                 return daysToShow == 1 ? '%date%' : '%start% - %end%';
             },
-            users: ${rooms},
+            users: ["大会议室","厂长办公室"],
             showAsSeparateUser: true,            
             eventRender : function(calEvent, $event) {
                 if (calEvent.end.getTime() < new Date().getTime()) {
@@ -462,8 +543,18 @@ split = split || function (undef) {
     });
     
     </script>
-</head>
-<body> 
+
+
+        
+	</head>
+
+	<body>
+
+
+				<div id="page-content" class="clearfix">
+					<div class="row-fluid">
+						<!--PAGE CONTENT BEGINS HERE-->
+                         
 	<div id='calendar'></div>
 	<div id="event_edit_container">
 		<form>
@@ -525,5 +616,13 @@ split = split || function (undef) {
 	</div>
 
 
-</body>
+ 
+
+						<!--PAGE CONTENT ENDS HERE-->
+					</div><!--/row-->
+				</div><!--/#page-content-->
+
+
+	</body>
 </html>
+
