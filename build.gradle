@@ -60,6 +60,10 @@ dependencies {
     testCompile "org.grails.plugins:geb"
     testRuntime "org.seleniumhq.selenium:selenium-htmlunit-driver:2.47.1"
     testRuntime "net.sourceforge.htmlunit:htmlunit:2.18"
+    
+    runtime 'javax.cache:cache-api:1.0.0'
+    runtime 'org.jboss.logging:jboss-logging:3.3.0.Final'
+
 }
 
 task wrapper(type: Wrapper) {
