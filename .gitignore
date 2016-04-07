@@ -1,7 +1,7 @@
 *.swp
 .asscache
 .gradle
-bower_components
+src/main/webapp/bower_components
 build
 node_modules
 extjs/.sencha

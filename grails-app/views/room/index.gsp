@@ -5,13 +5,13 @@
     <title>会议室</title>
     <meta name="layout" content="bootswatch"/>
 
-    <asset:stylesheet src="../bower_components/jquery-week-calendar/libs/css/smoothness/jquery-ui-1.8.11.custom.css"/>
-    <asset:stylesheet src="../bower_components/jquery-week-calendar/jquery.weekcalendar.css"/>
+    <link rel="stylesheet" href="${resource(dir: '/bower_components/jquery-week-calendar/libs/css/smoothness', file: 'jquery-ui-1.8.11.custom.css')}" media="screen"> 
+    <link rel="stylesheet" href="${resource(dir: '/bower_components/jquery-week-calendar', file: 'jquery.weekcalendar.css')}" media="screen"> 
     <asset:stylesheet src="../bower_components/jquery-week-calendar/full_demo/reset.css"/>
     <asset:stylesheet src="../bower_components/jquery-week-calendar/full_demo/demo.css"/>
-    <asset:stylesheet src="../bower_components/jquery-week-calendar/skins/gcalendar.css"/>
-    <asset:stylesheet src="../bower_components/bootstrap-wysiwyg/css/style.css"/>
-    <asset:stylesheet src="../bower_components/bootstrap-colorpalette/css/bootstrap-colorpalette.css"/>
+    <link rel="stylesheet" href="${resource(dir: '/bower_components/jquery-week-calendar/skins', file: 'gcalendar.css')}" media="screen"> 
+    <link rel="stylesheet" href="${resource(dir: '/bower_components/bootstrap-wysiwyg/css', file: 'style.css')}" media="screen"> 
+    <link rel="stylesheet" href="${resource(dir: '/bower_components/bootstrap-colorpalette/css', file: 'bootstrap-colorpalette.css')}" media="screen"> 
 
     <!-- test this -->
     <!-- http://robmonie.github.io/jquery-week-calendar/full_demo/weekcalendar_full_demo.html -->
@@ -29,12 +29,12 @@
     }
     </style>
 
-    <asset:javascript src="../bower_components/jquery-week-calendar/libs/jquery-ui-1.8.11.custom.min.js"/>
-    <asset:javascript src="../bower_components/jquery-week-calendar/jquery.weekcalendar.js" />
-    <asset:javascript src="../bower_components/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js" />
-    <asset:javascript src="../bower_components/jquery.hotkeys/jquery.hotkeys.js" />
-    <asset:javascript src="../bower_components/bootstrap-colorpalette/js/bootstrap-colorpalette.js" />
- 
+    <script type="text/javascript" src="${resource(dir: '/bower_components/jquery-week-calendar/libs', file: 'jquery-ui-1.8.11.custom.min.js')}"></script>
+    <script type="text/javascript" src="${resource(dir: '/bower_components/jquery-week-calendar', file: 'jquery.weekcalendar.js')}"></script>
+    <script type="text/javascript" src="${resource(dir: '/bower_components/bootstrap-wysiwyg/js', file: 'bootstrap-wysiwyg.min.js')}"></script>
+    <script type="text/javascript" src="${resource(dir: '/bower_components/jquery.hotkeys', file: 'jquery.hotkeys.js')}"></script>
+    <script type="text/javascript" src="${resource(dir: '/bower_components/bootstrap-colorpalette/js', file: 'bootstrap-colorpalette.js')}"></script>
+
     <script type="text/javascript">
 /*!
  * Cross-Browser Split 1.1.1
