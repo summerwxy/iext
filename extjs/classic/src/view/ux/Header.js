@@ -5,7 +5,7 @@ Ext.define('iext.view.ux.Header', {
     items: [{
         xtype: 'label',
         text: 'iwill 爱维尔',
-        style: 'font-size: 20px; color: blue;'
+        style: 'font-size: 20px; color: red;'
     }, '->', {
         text: '主页'
     }]

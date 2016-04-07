@@ -42,6 +42,7 @@ Ext.define('iext.view.main.Main', {
         region: 'center',
         items: [{
             title: '首页',
+            iconCls: 'fa fa-home',
             html: '欢迎使用 iwill 爱维尔 后台系统'
         }]
     }]
