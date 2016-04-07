@@ -6,114 +6,43 @@
  * TODO - Replace this content of this view to suite the needs of your application.
  */
 Ext.define('iext.view.main.Main', {
-    extend: 'Ext.tab.Panel',
+    extend: 'Ext.container.Container',
     xtype: 'app-main',
 
     requires: [
-        'Ext.plugin.Viewport',
-        'Ext.window.MessageBox',
-
         'iext.view.main.MainController',
-        'iext.view.main.MainModel',
-        'iext.view.main.List'
+        'iext.view.main.MainModel'
     ],
 
     controller: 'main',
     viewModel: 'main',
-
-    ui: 'navigation',
-
-    tabBarHeaderPosition: 1,
-    titleRotation: 0,
-    tabRotation: 0,
-
-    header: {
-        layout: {
-            align: 'stretchmax'
-        },
-        title: {
-            bind: {
-                text: '{name}'
-            },
-            flex: 0
-        },
-        iconCls: 'fa-th-list'
-    },
-
-    tabBar: {
-        flex: 1,
-        layout: {
-            align: 'stretch',
-            overflowHandler: 'none'
-        }
-    },
-
-    responsiveConfig: {
-        tall: {
-            headerPosition: 'top'
-        },
-        wide: {
-            headerPosition: 'left'
-        }
-    },
-
-    defaults: {
-        bodyPadding: 0,
-        tabConfig: {
-            plugins: 'responsive',
-            responsiveConfig: {
-                wide: {
-                    iconAlign: 'left',
-                    textAlign: 'left'
-                },
-                tall: {
-                    iconAlign: 'top',
-                    textAlign: 'center',
-                    width: 120
-                }
-            }
-        }
-    },
-
     uses : [
-        'iext.view.ux.Room', 
-        'iext.view.ux.Ship',
-        'iext.view.ux.Qrcode',
-        'iext.view.ux.Ticket'
+        'iext.view.ux.Header',
+        'iext.view.ux.Footer'
     ],  
 
+    layout: {
+        type: 'border'
+    },
+
     items: [{
-        xtype : 'room'   
+        xtype: 'mainheader',
+        region: 'north'
     }, {
-        xtype : 'ship'   
+        xtype: 'mainfooter',
+        region: 'south'
     }, {
-        xtype : 'qrcode'   
+        xtype: 'panel',
+        region: 'west',
+        title: '功能菜单',
+        width: 250,
+        split: true
     }, {
-        xtype : 'ticket'   
-    }, {
-        title: 'Home',
-        iconCls: 'fa-home',
-        // The following grid shares a store with the classic version's grid as well!
+        xtype: 'tabpanel',
+        region: 'center',
         items: [{
-            xtype: 'mainlist'
+            title: '首页',
+            html: '欢迎使用 iwill 爱维尔 后台系统'
         }]
-    }, {
-        title: 'Users',
-        iconCls: 'fa-user',
-        bind: {
-            html: '{loremIpsum}'
-        }
-    }, {
-        title: 'Groups',
-        iconCls: 'fa-users',
-        bind: {
-            html: '{loremIpsum}'
-        }
-    }, {
-        title: 'Settings',
-        iconCls: 'fa-cog',
-        bind: {
-            html: '{loremIpsum}'
-        }
     }]
 });
