@@ -17,8 +17,9 @@ Ext.define('iext.view.main.Main', {
     controller: 'main',
     viewModel: 'main',
     uses : [
-        'iext.view.ux.Header',
-        'iext.view.ux.Footer'
+        'iext.view.main.Header',
+        'iext.view.main.Footer',
+        'iext.view.main.AccordionMenu'
     ],  
 
     layout: {
@@ -32,15 +33,16 @@ Ext.define('iext.view.main.Main', {
         xtype: 'mainfooter',
         region: 'south'
     }, {
-        xtype: 'panel',
-        region: 'west',
-        title: '功能菜单',
-        width: 250,
-        split: true
+        xtype: 'accordionmenu',
+        split: true,
+        region: 'west'
     }, {
+        id: 'tabs',
         xtype: 'tabpanel',
         region: 'center',
+        enableTabScroll: true,
         items: [{
+            id: 'tab-home',
             title: '首页',
             iconCls: 'fa fa-home',
             html: '欢迎使用 iwill 爱维尔 后台系统'

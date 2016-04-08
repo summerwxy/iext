@@ -17,7 +17,9 @@ class RoomController {
         return ['rooms': rooms as JSON, dateLong: dateLong] 
     }
 
-    def test() {}
+    def test() {
+
+    }
 
     def show() {
         /*

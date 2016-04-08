@@ -59,6 +59,7 @@ info:
         name: '@info.app.name@'
         version: '@info.app.version@'
         grailsVersion: '@info.app.grailsVersion@'
+
 spring:
 
     groovy:

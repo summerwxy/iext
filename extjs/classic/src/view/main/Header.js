@@ -1,5 +1,5 @@
 
-Ext.define('iext.view.ux.Header', {  
+Ext.define('iext.view.main.Header', {  
     extend: 'Ext.toolbar.Toolbar',
     alias : 'widget.mainheader',  
     items: [{
