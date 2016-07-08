@@ -45,6 +45,7 @@ Ext.define('iext.view.main.Main', {
             id: 'tab-home',
             title: '首页',
             iconCls: 'fa fa-home',
+            bodyStyle: 'font-size: 22px;',
             html: '欢迎使用 iwill 爱维尔 后台系统'
         }]
     }]

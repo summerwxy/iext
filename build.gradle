@@ -64,6 +64,17 @@ dependencies {
     runtime 'javax.cache:cache-api:1.0.0'
     runtime 'org.jboss.logging:jboss-logging:3.3.0.Final'
 
+
+    // ===== add by wxy =====
+    compile 'net.sourceforge.jtds:jtds:1.3.1'
+
+    compile "org.apache.poi:poi:3.13"
+    compile "org.apache.poi:poi-ooxml:3.13"
+    compile "org.apache.poi:ooxml-schemas:1.1"
+
+    compile 'me.chanjar:weixin-java-mp:1.3.3'
+    
+
 }
 
 task wrapper(type: Wrapper) {

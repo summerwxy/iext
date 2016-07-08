@@ -16,8 +16,13 @@ dataSource:
 environments:
     development:
         dataSource:
-            dbCreate: create-drop
-            url: jdbc:h2:mem:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
+            #dbCreate: create-drop
+            #url: jdbc:h2:mem:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
+            dbCreate: update
+            driverClassName: net.sourceforge.jtds.jdbc.Driver
+            url: jdbc:jtds:sqlserver://192.168.0.18/iwill
+            username: sa
+            password: 123456_abc
     test:
         dataSource:
             dbCreate: update

@@ -11,7 +11,9 @@ Ext.define('iext.view.main.AccordionMenu', {
     viewModel: 'main',
 
     title: '功能菜单',
-    
+
+    bodyStyle: 'font-size: 14px;',
+
     initComponent: function() {
         this.items = [];
         var menus = this.getViewModel().get('menu');
