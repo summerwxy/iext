@@ -13,6 +13,14 @@ import javax.servlet.http.HttpServletRequest
 
 class _ {
 
+    static obj2map(Object obj) {
+        def map = [:]
+        obj.class.declaredFields.findAll { !it.synthetic }.each {
+            map[it.name] = obj[it.name]
+        }
+        return map
+    }
+
     static date2String(Date d, format='yyyyMMdd') {
         SimpleDateFormat sdf = new SimpleDateFormat(format)
         return sdf.format(d)
@@ -125,11 +133,11 @@ class _ {
     }
 
     static getWxmpAppId() {
-        return dev() ? 'wx13f69830d69c3748' : "wx13f69830d69c3748"
+        return dev() ? 'wx13f69830d69c3748' : 'wx13f69830d69c3748'
     }
 
     static getWxmpAppSecret() {
-        return dev() ? '48fcca0f2f720679653c65ffde917bbe' : "48fcca0f2f720679653c65ffde917bbe" 
+        return dev() ? '48fcca0f2f720679653c65ffde917bbe' : '48fcca0f2f720679653c65ffde917bbe'
     }
 
     static getWxmpToken() {
@@ -137,16 +145,17 @@ class _ {
     }
 
     static getWxmpAesKey() {
-        return dev() ? 'YTbTlbrOxbPl64fbDMBi8gs7TqAkvd42Bd0RRVwuNh1' : "YTbTlbrOxbPl64fbDMBi8gs7TqAkvd42Bd0RRVwuNh1"
+        return dev() ? 'YTbTlbrOxbPl64fbDMBi8gs7TqAkvd42Bd0RRVwuNh1' : 'YTbTlbrOxbPl64fbDMBi8gs7TqAkvd42Bd0RRVwuNh1'
     }
 
     static getWxmpMchId() {
-        return dev() ? '' : ""
+        return dev() ? '1364772002' : '1364772002'
     }
 
     static getWxmpMchKey() {
-        return dev() ? '' : ""
+        return dev() ? 'b84b9bb08bd8f064fab58420c7d304bb' : 'b84b9bb08bd8f064fab58420c7d304bb'
     }
+
 
     // TODO: test it
     // 因為卡再 Grails 預設 groovy 版本問題, 開發環境與正式環境處理方式不一樣
@@ -154,7 +163,8 @@ class _ {
         def result = null
         def slurper = new JsonSlurper()
         if (_.dev()) {
-            result = slurper.parseText(url.toURL().text)
+            // result = slurper.parseText(url.toURL().text) // Grails 2.X 的時候有區別特地寫的, 可能跟 web container 有關係
+            result = slurper.parse(new URL(url), 'utf-8')
         } else {            
             result = slurper.parse(new URL(url), 'utf-8')
         }    

@@ -14,6 +14,7 @@
     "bootstrap-colorpalette": "extremeFE/bootstrap-colorpalette",
     "jquery-week-calendar": "themouette/jquery-week-calendar",
     "bootswatch": "thomaspark/bootswatch",
+    "blockui": null, 
     "bootstrap": null
   }
 }

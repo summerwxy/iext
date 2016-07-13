@@ -15,6 +15,9 @@ class WxmpService {
     private __secret = _.wxmpAppSecret
     private __token = _.wxmpToken
     private __aesKey = _.wxmpAesKey
+    private __mchId = _.wxmpMchId
+    private __mchKey = _.wxmpMchKey
+
     private __config
     def getConfig() {
         if (!__config) {
@@ -23,6 +26,8 @@ class WxmpService {
             __config.setSecret(__secret)
             __config.setToken(__token)
             __config.setAesKey(__aesKey)
+            __config.setPartnerId(__mchId)
+            __config.setPartnerKey(__mchKey)
         }
         return __config
     }

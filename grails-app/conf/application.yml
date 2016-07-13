@@ -119,8 +119,8 @@ grails:
             encoding: UTF-8
             htmlcodec: xml
             codecs:
-                expression: html
-                scriptlets: html
+                expression: none # html
+                scriptlets: none # html
                 taglib: none
                 staticparts: none
 endpoints:

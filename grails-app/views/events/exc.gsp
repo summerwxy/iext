@@ -6,15 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>iwill 爱维尔</title>
     <!-- Bootstrap Core CSS - Uses Bootswatch Flatly Theme: http://bootswatch.com/flatly/ -->
-    <link href="/imis/bower_components/startbootstrap-freelancer/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${resource(dir: '/bower_components/startbootstrap-freelancer/vendor/bootstrap/css', file: 'bootstrap.min.css')}" rel="stylesheet">
     <!-- Custom CSS -->
-    <link href="/imis/bower_components/startbootstrap-freelancer/css/freelancer.css" rel="stylesheet">
+    <link href="${resource(dir: '/bower_components/startbootstrap-freelancer/css', file: 'freelancer.min.css')}" rel="stylesheet">
     <!-- Custom Fonts -->
-    <link href="/imis/bower_components/startbootstrap-freelancer/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="${resource(dir: '/bower_components/startbootstrap-freelancer/vendor/font-awesome/css', file: 'font-awesome.min.css')}" rel="stylesheet">
     <!-- jQuery -->
-    <script src="/imis/bower_components/startbootstrap-freelancer/js/jquery.js"></script>
+    <script src="${resource(dir: '/bower_components/startbootstrap-freelancer/vendor/jquery', file: 'jquery.min.js')}"></script>
     <!-- Bootstrap Core JavaScript -->
-    <script src="/imis/bower_components/startbootstrap-freelancer/js/bootstrap.min.js"></script>
+    <script src="${resource(dir: '/bower_components/startbootstrap-freelancer/vendor/bootstrap/js', file: 'bootstrap.min.js')}"></script>
 
     <script type="text/javascript">
     $(function() {
@@ -35,7 +35,7 @@
             var hid = ${h.id};
             $(this).addClass('hide');
             $.ajax({
-                url: 'mooncake2_check',
+                url: 'exc_check',
                 type: 'get',
                 data: {hid: hid, tno: tno.val(), vcode: vcode.val()}, 
                 dataType: 'json'
@@ -69,7 +69,7 @@
                 temp.addClass('hide');
                 var vid = $(this).parent().find('[name=vid]').val();
                 $.ajax({
-                    url: 'mooncake2_del',
+                    url: 'exc_del',
                     type: 'get',
                     data: {vid: vid}, 
                     dataType: 'json'
@@ -87,11 +87,14 @@
             $('#lv2 option:gt(0)').remove();
             $('#lv3 option:gt(0)').remove();
             $.ajax({
-                url: 'mooncake2_zone',
+                url: 'exc_zone',
                 type: 'get',
                 data: {plv: 'lv1', clv: 'lv2', val: this.value}, 
                 dataType: 'json'
             }).done(function(json) {
+
+                console.log(json)
+
                 $(json).each(function(i, it) {
                     $('#lv2').append('<option>' + it.name + '</option>')
                 });
@@ -103,7 +106,7 @@
         $('#lv2').on('change', function() {
             $('#lv3 option:gt(0)').remove();
             $.ajax({
-                url: 'mooncake2_zone',
+                url: 'exc_zone',
                 type: 'get',
                 data: {plv: 'lv2', clv: 'lv3', val: this.value}, 
                 dataType: 'json'
@@ -184,16 +187,17 @@
 
 <body id="page-top" class="index">
     <!-- Header -->
-    <g:if test="${h.status == 'paid'}">
+    <g:if test="${h.status in ['']}">
     <header>
         <div class="container" style="padding-top: 60px; padding-bottom: 60px;">
             <div class="row">
-                <img class="img-responsive" src="/imis/mooncake/mooncake2.jpg" style="margin-bottom: 0px;" alt="">
+                <asset:image src="events/exc_top.jpg" class="img-responsive" style="margin-bottom: 0px;" alt=""/>
             </div>
         </div>
     </header>
     </g:if>
-    <g:if test="${h.status != 'paid'}">
+
+    <g:if test="${h.status != 'paid' && !isThisActno}">
         
         <div style="text-align: center;">
             <h1>活动结束！</h1> 
@@ -202,7 +206,7 @@
         <br/><br/>
 
     </g:if>
-    <g:elseif test="${1 == 2}">
+    <g:elseif test="${h.status != 'paid'}">
         <!-- Contact Section -->
         <section style="padding-top: 30px; padding-bottom: 10px;">
             <div class="container">
@@ -447,6 +451,11 @@
                                     <td>${it.remark}</td>
                                 </tr>
                             </g:each>
+                            <g:if test="${!express}">
+                                <tr>
+                                    <td colspan="2">还未安排出货, 请耐心等候</td>
+                                </tr>
+                            </g:if>
                         </table>
                     </div>
                 </div>
@@ -482,10 +491,9 @@
         </div>
     </footer>
     <!-- Contact Form JavaScript -->
-    <script src="/imis/bower_components/startbootstrap-freelancer/js/jqBootstrapValidation.js"></script>
-    <script src="/imis/bower_components/blockui/jquery.blockUI.js"></script>
-    <script src="/imis/mooncake/mooncake2.js?v=1"></script>
+    <script src="${resource(dir: '/bower_components/startbootstrap-freelancer/js', file: 'jqBootstrapValidation.js')}"></script>
+    <script src="${resource(dir: '/bower_components/blockui', file: 'jquery.blockUI.js')}"></script>
+    <asset:javascript src="exc.js"/>
 </body>
-
 </html>
 
