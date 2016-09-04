@@ -11,6 +11,7 @@ class UrlMappings {
 
 
         "/"(controller: 'index', action: 'index')
+        "/home"(controller: 'index', action: 'home')
         "/default_index"(view:"/index")
         "500"(view:'/error')
         "404"(view:'/notFound')

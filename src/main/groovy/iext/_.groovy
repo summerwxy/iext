@@ -133,11 +133,11 @@ class _ {
     }
 
     static getWxmpAppId() {
-        return dev() ? 'wx13f69830d69c3748' : 'wx13f69830d69c3748'
+        return dev() ? 'wxb3235f51f36fe4c8' : 'wx13f69830d69c3748'
     }
 
     static getWxmpAppSecret() {
-        return dev() ? '48fcca0f2f720679653c65ffde917bbe' : '48fcca0f2f720679653c65ffde917bbe'
+        return dev() ? '7a879230c9c931338df16675a58df2fc' : '48fcca0f2f720679653c65ffde917bbe'
     }
 
     static getWxmpToken() {

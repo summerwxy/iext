@@ -9,14 +9,15 @@ import me.chanjar.weixin.common.session.*
 import me.chanjar.weixin.common.api.*
 
 @Transactional
-class WxmpService {
-    // fuwu2@dsiwill.com 的
-    private __appId = _.wxmpAppId
-    private __secret = _.wxmpAppSecret
-    private __token = _.wxmpToken
-    private __aesKey = _.wxmpAesKey
-    private __mchId = _.wxmpMchId
-    private __mchKey = _.wxmpMchKey
+class Wxmp2Service {
+
+    // fuwu@dsiwill.com 的
+    private __appId = 'wx52ea5a89a99b5be2'
+    private __secret = 'b99009a8092759d07350c8bc16d0d745'
+    private __token = 'abcde12345'
+    private __aesKey = 'soyNMqgiSlkbxnMGH3Tz9SW9pJwpeYNKYZyoTWrzx48'
+    private __mchId = '1220083801'
+    private __mchKey = 'b84b9bb08bd8f064fab58420c7d304bb'
 
     private __config
     def getConfig() {

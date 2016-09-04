@@ -30,7 +30,10 @@ environments:
     production:
         dataSource:
             dbCreate: update
-            url: jdbc:h2:./prodDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
+            driverClassName: net.sourceforge.jtds.jdbc.Driver
+            url: jdbc:jtds:sqlserver://192.168.0.18/iwill
+            username: sa
+            password: 123456_abc
             properties:
                 jmxEnabled: true
                 initialSize: 5
@@ -114,7 +117,7 @@ grails:
         encoding: UTF-8
     views:
         default:
-            codec: html
+            codec: none # html
         gsp:
             encoding: UTF-8
             htmlcodec: xml
@@ -127,5 +130,6 @@ endpoints:
     jmx:
         unique-names: true
 
-# server:
-#    contextPath: '/helloworld'            
+server:
+    # contextPath: '/iext'            
+    # port: 8081   

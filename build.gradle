@@ -74,6 +74,8 @@ dependencies {
 
     compile 'me.chanjar:weixin-java-mp:1.3.3'
     compile 'commons-io:commons-io:2.5'
+
+    // provided "org.springframework.boot:spring-boot-starter-tomcat"
     
 
 }
