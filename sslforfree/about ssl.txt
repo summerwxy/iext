@@ -1,0 +1,27 @@
+
+關於SSL
+
+這邊要每三個月更新一次證書
+https://www.sslforfree.com/create?generate&domains=test.dsiwill.com
+
+
+要提先安裝 Openssl 跟 keytool
+
+分別執行
+openssl pkcs12 -export -name servercert -in certificate.crt -inkey private.key -out myp12keystore.p12 -certfile ca_bundle.crt
+keytool -importkeystore -destkeystore mykeystore.jks -srckeystore myp12keystore.p12 -srcstoretype pkcs12 -alias servercert
+
+
+
+如果使用在 grails run-app 要順便更改 application.yml
+--------------------------------
+server:
+    # contextPath: '/iext'            
+    port: 8443
+    ssl:
+        enabled: true
+        key-store: sslforfree/mykeystore.jks
+        key-store-password: s863421
+        key-alias: servercert 
+        key-password: s863421
+---------------------------------

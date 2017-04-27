@@ -6,6 +6,7 @@ import java.util.UUID
 import groovy.io.FileType
 import groovy.json.*
 
+import me.chanjar.weixin.common.util.BeanUtils
 import java.util.HashMap
 import java.util.Map
 import java.util.Set
@@ -16,7 +17,9 @@ class _ {
     static obj2map(Object obj) {
         def map = [:]
         obj.class.declaredFields.findAll { !it.synthetic }.each {
-            map[it.name] = obj[it.name]
+            if (it.name != 'serialVersionUID') {
+                map[it.name] = obj[it.name]
+            }
         }
         return map
     }
@@ -133,15 +136,15 @@ class _ {
     }
 
     static getWxmpAppId() {
-        return dev() ? 'wxb3235f51f36fe4c8' : 'wx13f69830d69c3748'
+        return 'wx13f69830d69c3748' // dev() ? 'wx150d0099b302cee6' : 'wx13f69830d69c3748'
     }
 
     static getWxmpAppSecret() {
-        return dev() ? '7a879230c9c931338df16675a58df2fc' : '48fcca0f2f720679653c65ffde917bbe'
+        return '48fcca0f2f720679653c65ffde917bbe' // dev() ? '0bcd616e16fa378bb38ae54f1252c567' : '48fcca0f2f720679653c65ffde917bbe'
     }
 
     static getWxmpToken() {
-        return dev() ? 'abcde12345' : 'abcde12345'
+        return 'abcde12345' // dev() ? 'SECRET_WORD' : 'abcde12345'
     }
 
     static getWxmpAesKey() {
@@ -149,7 +152,7 @@ class _ {
     }
 
     static getWxmpMchId() {
-        return dev() ? '1364772002' : '1364772002'
+        return '1364772002' // dev() ? '1364772002' : '1364772002'
     }
 
     static getWxmpMchKey() {

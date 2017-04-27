@@ -8,3 +8,4 @@ extjs/.sencha
 extjs/build
 extjs/ext
 src/main/webapp/extjs
+src/main/webapp/dist

@@ -3,8 +3,10 @@ package iext
 import grails.transaction.Transactional
 import grails.util.Environment
 import me.chanjar.weixin.mp.api.*
+import me.chanjar.weixin.mp.api.impl.*
 import me.chanjar.weixin.common.util.*
 import me.chanjar.weixin.mp.bean.*
+import me.chanjar.weixin.mp.bean.message.*
 import me.chanjar.weixin.common.session.*
 import me.chanjar.weixin.common.api.*
 

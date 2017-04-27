@@ -30,6 +30,13 @@
             $('#addSection').removeClass('hide');
             $('#addBox').addClass('hide');
         });
+
+        <g:if test="${firstTicket}">
+        // 1st ticket
+        $('#addBox').trigger('click');
+        $('#addSection_tno').val('${firstTicket}');
+        </g:if>
+
         $('#checkIcon').on('click', function() {
             var tno = $('[name=tno]');
             var vcode = $('[name=vcode]');
@@ -43,7 +50,7 @@
             }).done(function(json) {
                 if (!json.msg) {
                     alert('添加成功！');
-                    var foo = $('.rows:eq(0)').clone();
+                    var foo = $('.rows:eq(0)').clone().removeClass('hide');
                     $(foo.find('.name')).text(json.name);
                     $(foo.find('.tno')).text(json.tno);
                     $(foo.find('.vcode')).text(json.vcode);
@@ -93,9 +100,6 @@
                 data: {plv: 'lv1', clv: 'lv2', val: this.value}, 
                 dataType: 'json'
             }).done(function(json) {
-
-                console.log(json)
-
                 $(json).each(function(i, it) {
                     $('#lv2').append('<option>' + it.name + '</option>')
                 });
@@ -129,7 +133,7 @@
             });
             var showW = Math.round(total / 100) / 10;
             var feeW = Math.ceil(total / 1000);
-            // TODO: 显示价格 按钮控制
+            // 显示价格
             msg += '共 ' + showW + ' 公斤';
             var lv1 = $('#lv1').val();
             if (lv1.length == 0) {
@@ -152,8 +156,11 @@
             if ($('#name').val().length == 0) {
                 msg.push('请填写收件人！');
             }
-            if ($('#phone').val().length == 0) {
-                msg.push('请填写联系电话！');
+            if ($('#phone').val().length != 11) {
+                msg.push('请填写11位手机号码！');
+            }
+            if (!(/^\d+$/.test($('#phone').val()))) {
+                msg.push('电话号码只能输入数字！');    
             }
             if ($('#lv1').val().length == 0) {
                 msg.push('请选择【省】！');
@@ -167,7 +174,7 @@
             if ($('#address').val().length == 0) {
                 msg.push('请填写收货地址！');
             }
-            if ($('[name=vid]').size() == 0) {
+            if ($('[name=vid]').size() == 1) {
                 msg.push('请添加礼盒！');
             }
             if (msg.length > 0) {
@@ -181,6 +188,64 @@
         // block ui when ajax request
         $.blockUI.defaults.message = '处理中...';
         $(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
+        // enable pay button
+        $('#actBtn').prop('disabled', '');
+        // restore select tag 
+        if ('${h.lv1}'.length > 0) {
+            // select lv 1
+            $('#lv1').find('option').each(function(i, it) {
+                if ($(it).val() == '${h.lv1}') {
+                    $(it).prop('selected', 'true');    
+                    calcFee();
+                    // load lv2
+                    restore_lv2('${h.lv1}');
+                }
+            });
+        }
+        
+        function restore_lv2(lv1) {
+            $.ajax({
+                url: 'exc_zone',
+                type: 'get',
+                data: {plv: 'lv1', clv: 'lv2', val: lv1}, 
+                dataType: 'json'
+            }).done(function(json) {
+                $(json).each(function(i, it) {
+                    $('#lv2').append('<option>' + it.name + '</option>')
+                });
+                // select lv 2
+                $('#lv2').find('option').each(function(i, it) {
+                    if ($(it).val() == '${h.lv2}') {
+                        $(it).prop('selected', 'true');    
+                        // load lv3
+                        restore_lv3('${h.lv2}');
+                    }
+                });
+            }).fail(function(json) {
+                alert('AJAX FAIL!');    
+            });          
+        }
+
+        function restore_lv3(lv2) {
+            $.ajax({
+                url: 'exc_zone',
+                type: 'get',
+                data: {plv: 'lv2', clv: 'lv3', val: lv2}, 
+                dataType: 'json'
+            }).done(function(json) {
+                $(json).each(function(i, it) {
+                    $('#lv3').append('<option>' + it.name + '</option>')
+                });
+                // select lv 3
+                $('#lv3').find('option').each(function(i, it) {
+                    if ($(it).val() == '${h.lv3}') {
+                        $(it).prop('selected', 'true');    
+                    }
+                });
+            }).fail(function(json) {
+                alert('AJAX FAIL!');    
+            });       
+        }
 
     });
     </script>
@@ -220,6 +285,19 @@
 
                 <div class="row">
                     <div class="col-lg-8 col-lg-offset-2">
+                        <div class="rows hide">
+                            <div class="row control-group">
+                                <div class="form-group1 col-xs-10 controls name"></div>
+                                <div class="form-group1 col-xs-2 controls" style="top: 0px;">
+                                    <input type="hidden" name="vid" value=""/>
+                                    <input type="hidden" name="weight" value="0"/>
+                                    <i class="fa fa-fw fa-times-circle delIcon" style="color: red;"></i>
+                                </div>
+                                <div class="form-group1 col-xs-8 controls tno"></div>
+                                <div class="form-group1 col-xs-4 controls vcode"></div>
+                            </div>
+                            <hr style="margin-top: 0px; margin-bottom: 0px;"/>
+                        </div>
                         <g:each in="${ds}" status="i" var="it">
                             <div class="rows">
                                 <div class="row control-group">
@@ -243,7 +321,7 @@
                         </g:each>
                         <div id="addSection" class="row control-group hide">
                             <div class="form-group col-xs-8 controls">
-                                <input type="number" class="form-control" name="tno" placeholder="提货券券号">
+                                <input id="addSection_tno" type="number" class="form-control" name="tno" placeholder="提货券券号">
                             </div>
                             <div class="form-group col-xs-4 controls">
                                 <input type="text" class="form-control" name="vcode" placeholder="验证码">
@@ -333,7 +411,7 @@
                                     <input type="hidden" name="hid" value="${h.id}" /><br/>
                                     <input type="hidden" id="kg" name="kg" value="0" /><br/>
                                     <input type="hidden" id="fee" name="fee" value="0" /><br/>
-                                    <button type="submit" name="act" value="pay" class="btn btn-success btn-block">
+                                    <button type="submit" id="actBtn" name="act" value="pay" class="btn btn-success btn-block" disabled="disabled">
                                         支付 
                                     </button>
                                 </div>

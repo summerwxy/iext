@@ -6,6 +6,9 @@ import grails.converters.*
 import groovy.json.*
 import org.apache.commons.io.IOUtils
 import me.chanjar.weixin.common.util.crypto.WxCryptUtil
+import me.chanjar.weixin.common.util.*
+import me.chanjar.weixin.mp.bean.*
+import me.chanjar.weixin.mp.bean.pay.request.*
 
 class EventsController {
 
@@ -13,10 +16,39 @@ class EventsController {
     def dataSource
 
     def index() {
-        render "hello"
+        // 非法請求
+        if (!wxmp.service.checkSignature(params.timestamp, params.nonce, params.signature)) {
+            println 'invalid request'
+            render 'invalid request' 
+            return
+        }
+        // 設定微信服務器專用
+        if (StringUtils.isNotBlank(params.echostr)) {
+            println params.echostr
+            render params.echostr 
+            return
+        }
+        // 加密方式
+        def encryptType = StringUtils.isBlank(params.encrypt_type) ? "raw" : params.encrypt_type
+
+        // TODO: 明文還沒測試 加密的沒問題!!
+        if (encryptType == "raw") { // 明文
+            def inMessage = WxMpXmlMessage.fromXml(request.getInputStream())
+            def outMessage = wxmp.router.route(inMessage)
+            render outMessage ? outMessage.toXml() : ''
+        } else if (encryptType == "aes") { // AES 加密
+            def inMessage = WxMpXmlMessage.fromEncryptedXml(request.getInputStream(), wxmp.config, params.timestamp, params.nonce, params.msg_signature)
+            def outMessage = wxmp.router.route(inMessage)
+            render outMessage ? outMessage?.toEncryptedXml(wxmp.config) : ''
+        } else {
+           render "unknow encrypt type" 
+        }
     }
 
-    def actno = '2016_moon'
+
+
+
+    def actno = '2017_dragon_boat'
 
     def mooncake_weight = [
         '90150022': 900, // 2015爱维尔沁意礼盒
@@ -61,8 +93,25 @@ class EventsController {
         '90160050': 1900, // 2016台湾三宝
         '90160051': 10, // 2016雪绵娘
         '90160052': 2800, // 2016舌尖上的台湾
+
+
+        '16360173': 790, // 万事如意（129型）礼盒
+        '16360174': 595, // 吉祥如意（79型）礼盒
+        '16360178': 970, // 17圣维尼礼盒
+        '16360197': 1030, // 17过年好礼盒
+        '16360198': 565, // 17福到礼盒
+        '16360199': 320, // 法式牛轧糖A
+        '16360200': 320, // 法式牛轧糖B
+
+        '90170001': 0, // 17粽香礼盒
+        '90170002': 930, // 17粽意礼盒
+        '90170003': 1420, // 17粽爱礼盒
+        '90170004': 1950, // 17粽情礼盒
+        '90170005': 1400, // 17素食粽礼盒
+        '90170006': 2940, // 17粽礼礼盒
     ]
 
+    // TODO: 2017_spring 還是有支付問題, 待解決
     // TODO: only this event allow
     def exc() {
         // ===== weixin oauth2 =====
@@ -89,33 +138,46 @@ class EventsController {
         def lv1s = []
         def fee = [:]
         def express = []            
-        def isThisActno = false
+        def isThisActno = true
+        def firstTicket = null
 
-        if (params.vid) { // 掃碼過來的
-            def sql = new Sql(dataSource)
-            def s = """select a.GI_P_NO, a.ACTNO, b.* from GIFT_TOKEN a left join express_charge_body b on a.vid = b.vid where a.vid = ?"""
-            def row = sql.firstRow(s, [params.vid])
-            // 找單頭數據
-            if (!row) {
-                render '非法访问！'
-                return
-            } else if (row.ACTNO != actno) {
-                // TODO: 非本次的活動
-            } else if (!row.h_id) {
-                s = """
-                    insert express_charge_head(version, address, date_created, express_no, last_updated, name, phone, status, fee, kg, lv1, lv2, lv3, lat, lng) values(0, '', GETDATE(), '', GETDATE(), '', '', '', 0, 0, '', '', '', 0, 0)
-                    select * from express_charge_head where id = @@IDENTITY
-                """
-                h = sql.firstRow(s, [])
-                s = "insert express_charge_body values(0, GETDATE(), ?, GETDATE(), ?)"
-                sql.execute(s, [h.id, params.vid])
-                redirect(action: 'exc', params: ['showwxpaytitle': '1', 'vid': params.vid]) // 解決第一次掃描, 沒有單身問題
-            } else if (row.h_id) {
-                s = "select * from express_charge_head where id = ?"
-                h = sql.firstRow(s, [row.h_id])
-            } 
-            isThisActno = row.ACTNO == actno
-            // 找單身數據
+        def sql = null
+        def s = null
+        def row = null
+
+        // 掃碼過來的
+        if (params.vid) { 
+            sql = new Sql(dataSource)
+            s = """select a.GI_P_NO, a.ACTNO, a.GT_NO, b.* from GIFT_TOKEN a left join express_charge_body b on a.vid = b.vid where a.vid = ?"""
+            row = sql.firstRow(s, [params.vid])
+        }
+        
+        if (params.vid && !row) { // 不存在的券
+            render 'invalid access!'
+            return
+        } else if (params.vid && row.ACTNO != actno) { // 非本次的活動
+            isThisActno = false
+        } else if (params.vid && !row.h_id) { // 第一次掃碼, 一定是沒有單頭, 先新增再把號碼查出來
+            s = """
+                insert express_charge_head(version, address, date_created, express_no, last_updated, name, phone, status, fee, kg, lv1, lv2, lv3, lat, lng) values(0, '', GETDATE(), '', GETDATE(), '', '', '', 0, 0, '', '', '', 0, 0)
+                select * from express_charge_head where id = @@IDENTITY
+            """
+            h = sql.firstRow(s, [])
+            // 省
+            s = "select distinct lv1 from zone order by lv1"
+            sql.eachRow(s, []) {
+                lv1s << it.toRowResult()
+            }
+            // fee
+            s = "select distinct first, additional, lv1 from zone"
+            sql.eachRow(s, []) {
+                fee[it.lv1] = it.toRowResult()
+            }            
+            firstTicket = row.GT_NO
+        } else if (params.vid && row.h_id) {
+            s = "select * from express_charge_head where id = ?"
+            h = sql.firstRow(s, [row.h_id])
+            // 找單身資料
             s = """
                 select a.GT_NO, a.VCODE, a.VID, c.P_NO, c.P_NAME
                 from GIFT_TOKEN a
@@ -139,13 +201,14 @@ class EventsController {
                 fee[it.lv1] = it.toRowResult()
             }
             // express
-            if (h.express_no) {
+            if (h?.express_no) {
                 def foo = _.parseJson("http://v.juhe.cn/exp/index?key=b7f2944ba8eef30883de8eb21830bb6f&com=sf&no=${h.express_no}")
                 if (foo.error_code == 0) {
                     express = foo.result.list
                 }
             }
         } else if (params.act == 'pay') { // 填完地址之後 點支付按鈕
+            // TODO: 這邊重新做 需要交易處理!!!!!!!
             h = ExpressChargeHead.get(params.hid)
             // 曾經產生過微信支付訂單的數據, 要重新建 head 資料
             if (h.status == 'unpaid') {
@@ -177,30 +240,31 @@ class EventsController {
             h.address = params.address
             h.kg = params.kg.toFloat()
             h.fee = params.fee.toFloat()
+            h.saveopenid = session.openid
             h.status = 'unpaid'
             h.save(flush: true)
 
-            def map = [:]
-            map['device_info'] = 'WEB'
-            map['body'] = "爱维尔中秋礼盒(" + params.kg + ")"
-            map['attach'] = "2016_moon"
-            map['out_trade_no'] = "IWILL_SF_" + h.id.toString().padLeft(10, "0")
-            def tf = _.dev() ? params.fee.toInteger() : params.fee.toInteger() * 100
-            map['total_fee'] = tf.toString() 
-            map['spbill_create_ip'] = request.getRemoteAddr()
-            map['notify_url'] = _.dev() ? "http://test.dsiwill.com/events/exc_notify" : "http://api.dsiwill.com/iext/events/exc_notify"
-            map['trade_type'] = 'JSAPI'
-            map['openid'] = session.openid
-            def payInfo = wxmp.service.getJSSDKPayInfo(map)
+            // TODO: 檢查有沒有資料 正常才可以出現支付畫面
+
+            def uor = new WxPayUnifiedOrderRequest()
+            uor.deviceInfo = 'WEB'
+            uor.body = _.dev() ? '測試(' + params.kg + ')' : "爱维尔礼盒(" + params.kg + ")"
+            uor.outTradeNo = "IWILL_SF_" + h.id.toString().padLeft(10, "0")
+            uor.totalFee = _.dev() ? 1 : params.fee.toInteger() * 100
+            uor.spbillCreateIp = request.getRemoteAddr()
+            uor.notifyURL = _.dev() ? "http://test.dsiwill.com/events/exc_notify" : "http://api.dsiwill.com/iext/events/exc_notify"
+            uor.tradeType = 'JSAPI'
+            uor.attach = actno
+            uor.openid = session.openid
+            def payInfo = wxmp.service.payService.getPayInfo(uor)
             flash.json = payInfo as JSON
             redirect(action: 'exc_pay', params: ['showwxpaytitle': '1'])
             return
         } else if (!params.vid && !params.code && !flash.vid) {
-            render '无效访问！！' // make as AD page!
+            render 'invalid access!!' // make as AD page!
             return
         } 
-        
-        [h: h, ds: ds, lv1s: lv1s, fee: fee as JSON, express: express, isThisActno: isThisActno]    
+        [h: h, ds: ds, lv1s: lv1s, fee: fee as JSON, express: express, isThisActno: isThisActno, firstTicket: firstTicket]    
     }
 
     def exc_pay() {
@@ -272,27 +336,20 @@ class EventsController {
 
     def exc_notify() {
         def xml = IOUtils.toString(request.getInputStream())
-        def data = wxmp.service.getJSSDKCallbackData(xml) // WxMpPayCallback
-        // 已处理 去重
-        /*
-        if(expireSet.contains(payNotify.getTransaction_id())){
-            return;
-        }
-        */
+        def data = wxmp.service.payService.getJSSDKCallbackData(xml)
         def map = _.obj2map(data)
-        def sign = WxCryptUtil.createSign(map, _.wxmpMchKey)
+        def sign = wxmp.service.payService.createSign(map, _.wxmpMchKey)
+
         // 簽名驗證
         if (sign == data.sign) {
             // update 
             def id = data.out_trade_no[9..18].toInteger()
             def h = ExpressChargeHead.get(id)
+            h.openid = data.openid
+            h.transactionid = data.transaction_id
             h.status = 'paid'
             h.save(flush: true)
             render "<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>"
-
-            /*            
-            expireSet.add(payNotify.getTransaction_id());
-            */
         } else {
             println 'i am error'
             render "<xml><return_code><![CDATA[FAIL]]></return_code><return_msg><![CDATA[ERROR]]></return_msg></xml>"

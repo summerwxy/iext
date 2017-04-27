@@ -8,8 +8,6 @@ class AuthInterceptor {
     }
 
     boolean before() { 
-        println 'check auth'
-
         return true
     }
 

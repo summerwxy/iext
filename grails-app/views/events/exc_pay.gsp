@@ -65,7 +65,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12 text-center">
-                        正在支付，请稍等！
+                        正在生成支付订单，请稍等！
                     </div>
                 </div>
             </div>
@@ -77,8 +77,8 @@
                     <div class="col-lg-12 text-center">
                         <h2>付款完成</h2>
                         <hr class="star-primary">
-                        礼盒安排出货后, 可再次扫码查询送货进度！
-                            
+                        顺丰取件时间为每日十七点钟<br/>
+                        出货后, 可再次扫码查询送货进度！
                     </div>
                 </div>
             </div>

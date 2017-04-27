@@ -14,6 +14,10 @@ class ExpressChargeHead {
     float kg
     float fee
     
+    String saveopenid
+    String openid
+    String transactionid
+    
     String expressNo
     String status
 
@@ -27,6 +31,9 @@ class ExpressChargeHead {
     static constraints = {
         lat(nullable: true)        
         lng(nullable: true)        
+        saveopenid(nullable: true)
+        openid(nullable: true)
+        transactionid(nullable: true)
     }
 
     static mapping = {
