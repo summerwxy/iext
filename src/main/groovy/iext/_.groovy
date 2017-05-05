@@ -12,6 +12,12 @@ import java.util.Map
 import java.util.Set
 import javax.servlet.http.HttpServletRequest
 
+import net.sourceforge.pinyin4j.PinyinHelper;
+import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
+import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
+import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
+import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
+
 class _ {
 
     static obj2map(Object obj) {
@@ -174,5 +180,50 @@ class _ {
         return result
     }
 
+
+    static zh2py(String chinese) {
+        StringBuffer pybf = new StringBuffer();
+        char[] arr = chinese.toCharArray();
+        HanyuPinyinOutputFormat defaultFormat = new HanyuPinyinOutputFormat();
+        defaultFormat.setCaseType(HanyuPinyinCaseType.LOWERCASE);
+        defaultFormat.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] > 128) {
+                try {
+                    String[] _t = PinyinHelper.toHanyuPinyinStringArray(arr[i], defaultFormat);
+                    if (_t != null) {
+                        pybf.append(_t[0].charAt(0));
+                    }
+                } catch (BadHanyuPinyinOutputFormatCombination e) {
+                    e.printStackTrace();
+                }
+            } else {
+                pybf.append(arr[i]);
+            }
+        }
+        return pybf.toString().replaceAll("\\W", "").trim();
+    }     
+
+    static canUseInPda(str) {
+        boolean foo = false
+        int count = 0
+        str.each {
+            if (Integer.toHexString((int) it.charAt(0)).length() == 4) {
+                count += 2
+            } else {
+                count += 1
+            }            
+            if (count == 22) { // 要刚好 22 不然就是中文字会拆开来
+                foo = true
+            }
+        }
+        if (count < 22) { // 小于 22 的也没事
+            foo = true
+        }
+        return foo
+    }
+
+    static _STORE_STATUS = ['1': '正常', '2': '已停業']
+    static _PART_STATUS = ['1': '正常', '3': '删除']    
 }
 

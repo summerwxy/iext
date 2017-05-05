@@ -301,6 +301,58 @@ class _s {
         drop table #tmp_Party,#tmp_Party全,#充值,#大于三千,#小于三千,#本月取,#节庆,#节庆提货,#非公司业绩QS,#非公司券业绩S,#非公司券促销券S,#非公司券月结券S,#非公司券礼券S,#非公司月结券QS,#非公司未分类
     """    
 
+    static api_q1v_1 = """
+        SELECT a.RECNO, a.D_NO, b.D_CNAME 
+        FROM PART_MENU_D a
+        LEFT JOIN DEPART b ON a.D_NO = b.D_NO
+        WHERE a.MU_NO = '11MU000001' 
+        ORDER BY a.RECNO
+    """
 
+    static api_q1v_2 = """
+        SELECT a.RECNO, b.P_NO, b.P_NAME
+        FROM PART_MENU_DD a
+        LEFt JOIN PART b ON a.DD_NO = b.P_NO
+        WHERE a.MU_NO = '11MU000001' AND a.D_NO = ?
+        ORDER BY RECNO
+    """
+
+    static api_q1v_3 = """
+        SELECT b.S_NAME, a.PS_QTY 
+        FROM PART_S a
+        LEFT JOIN STORE b ON a.S_NO = b.S_NO
+        WHERE a.P_NO = ?
+        AND a.PS_QTY <> 0
+        ORDER BY b.S_NAME
+    """
+
+    static api_q6l = """
+            select ps.S_NO, ps.P_NO, dbo.erosGetP_NAME(ps.P_NO) as P_NAME, ps.PS_QTY, lg.PSL_OLD_QTY, lg.PSL_CHG_QTY, lg.PSL_BILL_BNO
+            , case lg.REMARK 
+                when 'SALE' then '銷售单' 
+                when 'INS' then '进货单' 
+                when 'USELESS' then '库调单'
+                when 'BACK' then '退货单' 
+                when 'TRAN' then '调拨单' 
+                when 'CO' then '盘点单'
+                when 'PC' then '红利兑换'
+                when 'UPDPNO' then '商品库存'
+                when 'INS_BACK' then '进货回溯'
+                when 'BAK_BACK' then '退货回溯' 
+                when 'PA' then '组合拆解' 
+                when 'SST' then '成品入库'
+                when 'WP' then '分销出货' 
+                when 'WB' then '分销退仓' 
+                when 'SH' then '总仓出货'
+                when 'SST_S' then '成品入库-扣原物料' 
+                when 'ORDER' then '客订' 
+                else dbo.erosGetMenu_Name(lg.REMARK) end REMARK, lg.PLS_DATE, lg.PLS_TIME
+            from Part_s ps
+            left join (select * from part_s_log lg 
+                            where PLS_DATE >= :sdate AND PLS_DATE <= :edate AND (PSL_OLD_QTY <> 0 OR PSL_CHG_QTY <> 0)
+                            AND P_NO = :p_no AND S_NO = :s_no)lg on lg.S_NO = ps.S_NO and lg.P_NO = ps.P_NO
+            where ps.S_NO = :s_no AND ps.P_NO = :p_no
+            order by ps.S_NO, ps.P_NO, lg.PLS_DATE, lg.PLS_TIME
+    """
 }
 

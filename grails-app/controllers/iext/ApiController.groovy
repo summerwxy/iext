@@ -150,4 +150,123 @@ class ApiController {
         }
         render data as JSON
     }
+
+
+    def q6l() {
+        header( "Access-Control-Allow-Origin", "*" )
+        
+        def data = []
+        def sdate = params.sdate[0..3] + params.sdate[5..6] + params.sdate[8..9]
+        def edate = params.edate[0..3] + params.edate[5..6] + params.edate[8..9]
+        def sql = new Sql(dataSource)
+        sql.eachRow(_s.api_q6l, [sdate: sdate, edate: edate, s_no: params.s_no, p_no: params.p_no]) {
+            data << it.toRowResult()
+        }
+        render data as JSON   
+    }
+
+    def q1v_1() {
+        header( "Access-Control-Allow-Origin", "*" )
+        def result = []
+        def sql = new Sql(dataSource)
+        sql.eachRow(_s.api_q1v_1, []) {
+            result << it.toRowResult()
+        }
+        render result as JSON
+    }
+
+    def q1v_2() {
+        header( "Access-Control-Allow-Origin", "*" )
+        def result = []
+        def sql = new Sql(dataSource)
+        sql.eachRow(_s.api_q1v_2, [params.d_no]) {
+            result << it.toRowResult()
+        }
+        render result as JSON
+    }
+
+    def q1v_3() {
+        header( "Access-Control-Allow-Origin", "*" )
+        def result = []
+        def sql = new Sql(dataSource)
+        sql.eachRow(_s.api_q1v_3, [params.p_no]) {
+            result << it.toRowResult()
+        }
+        render result as JSON
+    }
+
+    def qstore() {
+        header( "Access-Control-Allow-Origin", "*" )    
+        // 查詢
+        def data = []
+        def sql = new Sql(dataSource)
+        def s = """
+            select a.S_NO, a.S_NAME, a.S_TEL, a.S_IP, b.R_NAME, a.S_STATUS
+            from STORE a
+            left join REGION b on a.R_NO = b.R_NO
+        """
+        sql.eachRow(s, []) {
+            def store = it.toRowResult()
+            store.S_PY = _.zh2py(store.S_NAME)
+            store.S_STATUS_NAME = _._STORE_STATUS[store.S_STATUS]
+            store.label = store.S_NO + ' ' + store.S_NAME
+            data << store
+        }
+        // 篩選
+        def result = []
+        if (params.q) {
+            def kw = params.q.toLowerCase()
+            data.each {
+                if (it.S_PY.indexOf(kw) != -1 || it.S_TEL.indexOf(kw) != -1 || it.S_NO.indexOf(kw) != -1) {
+                    result << it
+                }
+            } 
+        } else {
+            result = data
+        }
+        render result as JSON
+    }
+
+    def qpart() {
+        header( "Access-Control-Allow-Origin", "*" )    
+        // 查詢
+        def data = []
+        def sql = new Sql(dataSource)
+        def s = """
+            select a.P_NO, a.P_NAME, a.P_PRICE, a.UN_NO, b.D_CNAME, c.SUB_NAME, a.P_STATUS, P_SPMODE, P_NAME + P_SPMODE AS PDASTR
+            from PART a 
+            left join DEPART b on a.D_NO = b.D_NO
+            left join SUBDEP c on b.[GROUP] = c.SUBDEP
+            order by P_NO
+        """
+        sql.eachRow(s, []) {
+            def part = it.toRowResult()
+            part.P_PY = _.zh2py(part.P_NAME).toLowerCase()
+            part.P_STATUS_NAME = _._PART_STATUS[part.P_STATUS]
+            part.P_PDA = _.canUseInPda(part.PDASTR) ? 'O' : 'X'
+            part.label = part.P_NO + ' ' + part.P_NAME
+            data << part
+        }
+        // 篩選
+        def result = []
+        if (params.w == 'part') {
+            def kw = params.q.toLowerCase()
+            data.each {
+                if ((it.P_PY.indexOf(kw) != -1 || it.P_NAME.indexOf(kw) != -1 || it.P_NO.indexOf(kw) != -1) && result.size() <= 500) {
+                    result << it
+                }   
+            }
+        } else if (params.w == 'pda') {
+            data.each {
+                if (it.P_PDA == 'X' && it.P_STATUS == '1') {
+                    result << it
+                } 
+            }
+        }        
+       
+        render result as JSON
+    }
+
+
+
 }

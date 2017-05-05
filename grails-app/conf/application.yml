@@ -133,12 +133,12 @@ endpoints:
     jmx:
         unique-names: true
 
-server:
+#server:
     # contextPath: '/iext'            
-    port: 8443
-    ssl:
-        enabled: true
-        key-store: sslforfree/mykeystore.jks
-        key-store-password: s863421
-        key-alias: servercert
-        key-password: s863421
+    # port: 8443
+    #ssl:
+    #    enabled: true
+    #    key-store: sslforfree/mykeystore.jks
+    #    key-store-password: s863421
+    #    key-alias: servercert
+    #    key-password: s863421
